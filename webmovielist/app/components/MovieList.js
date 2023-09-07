@@ -1,24 +1,36 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Image from 'next/image'
-import Tempimg from '../../public/medium-cover.jpg'
-import Link from 'next/link'
+import MovieData from './MovieData'
+
 
 export default function MovieList() {
-    const [movies,setMovies] = useState([])
+    const [nowShowing,setNowShowing] = useState([])
+    const [comingSoon,setComingSoon] = useState([])
 
     useEffect(() => {
         const fetchData = async() =>{
             try {
                 const response = await axios.get('https://list-movies.p.rapidapi.com/list_movies.json/false',{
+                      params: {
+                        limit:40
+                      },
                       headers: {
-                        'X-RapidAPI-Key': 'd619e607f0mshb718ae61f46c87fp1ecd89jsn6ebc21184024',
+                        'X-RapidAPI-Key': '8bbb07e38fmsh7c5a3909ff51ab1p1f7a0ejsnc873f9077073',
                         'X-RapidAPI-Host': 'list-movies.p.rapidapi.com'
                       }
                 })
-                setMovies(response.data.data.movies)
-                console.log(response.data.data.movies)
+                const result = response.data.data.movies
+                const filteredResult = result.filter(function (el){
+                  return el.year >= 2020
+                })
+                console.log(filteredResult)
+
+                const showing = filteredResult.slice(0,10)
+                setNowShowing(showing)
+
+                const coming = filteredResult.slice(11,40)
+                setComingSoon(coming)
             } catch (error) {
                 console.log(error)
             }
@@ -29,23 +41,17 @@ export default function MovieList() {
 
   return (
     <div className="p-5 mx-10 h-full-screen">
-      <div className="w-full  text-green-800  border-gray-300  pt-2">
-        <h1 className="font-bold text-2xl  underline underline-offset-[10px] decoration-4">Now Playing</h1>
+      <div className='m-1'>
+        <div className="w-full  text-green-800  border-gray-300  pt-2">
+          <h1 className="font-bold text-2xl  underline underline-offset-[10px] decoration-4">Now Playing</h1>
+        </div>
+        <MovieData movies={nowShowing}/>
       </div>
-      <div className='grid grid-cols-4 xl:grid-cols-4 gap-4 py-5'> 
-        {(() => {
-            if (movies && movies.length >0) {
-              return movies.map((item) => (
-                <Link href={'/movieDetails/'+item.id}>
-                    <div className=' rounded-lg  w-64 p-2 mb-5'>
-                        <Image src={item.medium_cover_image} width={230} height={345} className='rounded-lg hover:opacity-75 drop-shadow-xl my-3 mx-1 shadow-xl' alt='temp'/>
-                        <h1 className='font-medium text-lg'>{item.title}</h1>
-                        <h1 className=' text-sm text-yellow-600'>Rated {item.rating}</h1>
-                    </div>
-                </Link>
-                
-              ))}
-          }) ()}
+      <div className='m-1'>
+        <div className="w-full  text-green-800  border-gray-300  pt-2">
+          <h1 className="font-bold text-2xl  underline underline-offset-[10px] decoration-4">Coming Soon</h1>
+        </div>
+        <MovieData movies={comingSoon}/>
       </div>
     </div>
 
