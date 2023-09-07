@@ -33,13 +33,13 @@ export default function SignInPage() {
         // console.log(username, password);
 
         try {
-            const response = await axios.get(SIGNIN_URL, 
+            const response = await axios.get('https://dummyjson.com/users', 
                 JSON.stringify({username, password}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 });
-                console.log(JSON.stringify(response?.data));
+                // console.log(JSON.stringify(response?.data));
                 setAuth({username, password})
                 setUsername('');
                 setPassword('');
