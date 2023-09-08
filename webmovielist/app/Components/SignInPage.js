@@ -2,8 +2,9 @@
 
 import React, { useRef, useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
-import Header from "./Header";
 import { useAuth } from "../Context/AuthProvider";
+import { useRouter } from "next/navigation";
+import HeaderSignin from "./HeaderSignIn";
 
 export default function SignUpPage() {
     const { setAuth } = useAuth();
@@ -46,9 +47,15 @@ export default function SignUpPage() {
         }
     };
 
+    const router = useRouter();
+
+    const handleGoToHome = () => {
+        router.push('/Home')
+    }
+
     return (
         <>
-            <Header/>
+            <HeaderSignin/>
             {success ? (
                 <section>
                     <div className="flex items-center justify-center h-screen">
@@ -58,11 +65,19 @@ export default function SignUpPage() {
                                     You are logged in!
                                 </h1>
                                 <br/>
-                                <h3 className="text-xl text-white font-semibold mb-8 text-center">
+                                {/* <h3 className="text-xl text-white font-semibold mb-8 text-center">
                                     <a href="/">
                                         Go to Home
                                     </a>
-                                </h3>
+                                </h3> */}
+                                <div className="text-xl text-white font-semibold mb-8 text-center">
+                                    <button
+                                        type="text"
+                                        onClick={handleGoToHome}
+                                    >
+                                        Go to Home
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
