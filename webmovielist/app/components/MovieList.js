@@ -22,14 +22,14 @@ export default function MovieList() {
                 })
                 const result = response.data.data.movies
                 const filteredResult = result.filter(function (el){
-                  return el.year >= 2020
+                  return el.year >= 2020 && el.date_uploaded_unix < 1694159325 && el.runtime > 0
                 })
                 console.log(filteredResult)
 
-                const showing = filteredResult.slice(0,10)
+                const showing = filteredResult.slice(0,(filteredResult.length/2)+1)
                 setNowShowing(showing)
 
-                const coming = filteredResult.slice(11,40)
+                const coming = filteredResult.slice((filteredResult.length/2)+1,filteredResult.length)
                 setComingSoon(coming)
             } catch (error) {
                 console.log(error)
