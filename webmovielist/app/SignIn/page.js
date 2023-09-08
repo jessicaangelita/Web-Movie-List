@@ -1,4 +1,5 @@
 import SignInPage from "../Components/SignInPage";
+import { AuthProvider } from "../Context/AuthProvider";
 
 export const metadata = {
     title: "Sign In",
@@ -6,8 +7,10 @@ export const metadata = {
 
 export default function SignIn() {
     return(
-        <div>
-            <SignInPage/>
-        </div>
+        <AuthProvider>
+            <div className="SignIn">
+                <SignInPage/>
+            </div>
+        </AuthProvider>
     )
 }
