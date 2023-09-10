@@ -1,23 +1,34 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { signOut, useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Header() {
     const router = useRouter();
+    const {data:session} = useSession()
+    const [logged,setLogged] = useState('Sign In')
 
     const handleNavigation = () => {
-        router.push('/SignIn')
+        if (session) {
+            signOut()
+            // console.log(session)
+        }else{
+            router.push('/SignIn')
+        }
+        
     }
 
     useEffect(() => {
-        if(typeof window === 'undefined') {
-            console.log('server')
-        } else {
-            console.log('client')
+        if (session) {
+            setLogged('Sign Out')
+            console.log(session)
+        }else{
+            setLogged('Sign In')
         }
-    }, []);
+        console.log(session)
+    }, [session]);
 
     return (
         <header className=" body-font w-full">
@@ -30,7 +41,7 @@ export default function Header() {
                 </nav>
                 <button 
                 onClick={handleNavigation}
-                className="inline-flex items-center bg-orange-200 border-0 py-2 px-4 focus:outline-none hover:bg-orange-300 rounded-lg text-base mt-4 md:mt-0 font-medium">Sign In
+                className="inline-flex items-center bg-orange-200 border-0 py-2 px-4 focus:outline-none hover:bg-orange-300 rounded-lg text-base mt-4 md:mt-0 font-medium">{logged}
                 <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                 </svg>
