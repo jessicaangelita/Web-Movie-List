@@ -11,9 +11,9 @@ export default function MovieList() {
     useEffect(() => {
         const fetchData = async() =>{
             try {
-                const response = await axios.get('https://list-movies.p.rapidapi.com/list_movies.json/false',{
+                const response = await axios.get('https://list-movies.p.rapidapi.com/list_movies.json',{
                       params: {
-                        limit:40
+                        limit:20
                       },
                       headers: {
                         'X-RapidAPI-Key': '8bbb07e38fmsh7c5a3909ff51ab1p1f7a0ejsnc873f9077073',
@@ -22,7 +22,7 @@ export default function MovieList() {
                 })
                 const result = response.data.data.movies
                 const filteredResult = result.filter(function (el){
-                  return el.year >= 2020 && el.date_uploaded_unix < 1694159325 && el.runtime > 0
+                  return el.year >= 2020 && el.runtime > 0
                 })
                 console.log(filteredResult)
 
