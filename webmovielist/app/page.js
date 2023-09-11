@@ -1,5 +1,5 @@
 import Header from "./Components/Header";
-import { AuthProvider } from "./Context/AuthProvider";
+import { AuthProvider } from "./Providers";
 import MovieList from "./Components/MovieList";
 import HomeBanner from "./Components/HomeBanner";
 
