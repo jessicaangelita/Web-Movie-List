@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
 export default function SignUpPage() {
-    const {data:session} = useSession()
+    const {data:session} = useSession() 
 
     const userRef = useRef();
     const errRef = useRef();
@@ -16,6 +16,7 @@ export default function SignUpPage() {
     const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
+    const [name, setName] = useState('Sign In')
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -41,6 +42,16 @@ export default function SignUpPage() {
         }
     }
 
+    useEffect(() => {
+        if (session) {
+            setName(session?.user?.firstName)
+            console.log(session)
+        }else{
+            setName('')
+        }
+        console.log(session)
+    }, [session]);
+
     const router = useRouter();
 
     const handleGoToHome = () => {
@@ -58,7 +69,8 @@ export default function SignUpPage() {
                                 You are logged in!
                             </h1>
                             <h1 className="text-lg text-white font-medium text-center">
-                                Welcome, {session?.user?.firstName} {session?.user?.lastName}
+                                {/* Welcome, {session?.user?.firstName} {session?.user?.lastName} */}
+                                Welcome, {name}
                             </h1>
                             <br/>
                             <div className="text-lg text-slate font-bold mb-8 text-center">
