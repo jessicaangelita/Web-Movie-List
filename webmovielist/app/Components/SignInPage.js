@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 
 export default function SignUpPage() {
     const {data:session} = useSession() 
@@ -16,7 +16,7 @@ export default function SignUpPage() {
     const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
-    const [name, setName] = useState('Sign In')
+    const [name, setName] = useState('')
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -37,20 +37,26 @@ export default function SignUpPage() {
                 setMessage("Sign In Success");
                 setSuccess(true);
             }
+
+
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(() => {
+
+     function getName(){
         if (session) {
             setName(session?.user?.firstName)
             console.log(session)
-        }else{
-            setName('')
         }
+    }
+
+    useEffect(() => {
+        getName() 
         console.log(session)
-    }, [session]);
+        console.log(success)
+    }, [success]);
 
     const router = useRouter();
 
