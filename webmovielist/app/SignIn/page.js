@@ -1,5 +1,5 @@
 import SignInPage from "../Components/SignInPage";
-import { AuthProvider } from "../Context/AuthProvider";
+import { AuthProvider } from "../Providers";
 import Header from "../Components/Header";
 
 
